@@ -112,7 +112,7 @@ $(document).ready(function() {
 });
         $(document).ready(function() {
             function laygiatri2() {
-                $.get("http://localhost:3000/vemaybay2", function(data, status) {
+                $.get("http://192.168.102.29:3000/vemaybay2", function(data, status) {
                     data.forEach(function(item) {
                         var veHTML = '<div id="cacve2" style="background-image: url(' + item.hinhanh + ');">';
                         veHTML += '<p><strong>Chuyến bay:</strong> ' + item.tenchuyen + '</p>';
