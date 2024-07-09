@@ -154,61 +154,34 @@
 <script>
      function docJSONtuGitHub() {
         $.ajax({
-        url: 'https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json',
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-            // Xử lý dữ liệu từ JSON tại đây
-        },
-        error: function(error) {
-            console.log(error);
-            alert('Lỗi khi tải tệp JSON từ GitHub');
-        }
-    });
-}
+            url: 'https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                // Process JSON data here
+                var veHTML = '<p><strong>Chuyến bay:</strong> ' + data.tenchuyen + '</p>';
+                veHTML += '<p><strong>Chiều:</strong> ' + (data.chieu === "1" ? 'Khứ hồi' : 'Một chiều') + '</p>';
+                veHTML += '<p><strong>Điểm đi:</strong> ' + data.diemdi + '</p>';
+                veHTML += '<p><strong>Điểm đến:</strong> ' + data.diemden + '</p>';
+                veHTML += '<p><strong>Ngày đi:</strong> ' + data.ngaydi + '</p>';
+                if (data.chieu === "1") {
+                    veHTML += '<p><strong>Ngày về:</strong> ' + data.ngayve + '</p>';
+                }
+                $('#ticketInfo').html(veHTML);
+            },
+            error: function(error) {
+                console.error('Error fetching JSON:', error);
+                alert('Lỗi khi tải tệp JSON từ GitHub');
+            }
+        });
+    }
 
-// Gọi hàm docJSONtuGitHub() khi trang được tải
-$(document).ready(function() {
-    docJSONtuGitHub();
-});
+    // Call the function to load JSON data when the document is ready
     $(document).ready(function() {
-        $('#ql').click(function() {
-                var mk = prompt('hay nhap mat khau cho quan tri vien!');
-                if (mk=='namhuytien') {
-                    window.location.href = 'btl3.html';
-                }
-                else {
-                    alert('rat tiec ban truy cap khong thanh cong!')
-                }
-            });
-        var urlParams = new URLSearchParams(window.location.search);
-        var idVe = urlParams.get('id');
-
-        if (idVe) {
-            $.get("http://localhost:3000/vemaybay/" + idVe, function(data, status) {
-                if (status === "success" && data) {
-                    var veHTML = '<p><strong>Chuyến bay:</strong> ' + data.tenchuyen + '</p>';
-                    veHTML += '<p><strong>Chiều:</strong> ' + (data.chieu === "1" ? 'Khứ hồi' : 'Một chiều') + '</p>';
-                    veHTML += '<p><strong>Điểm đi:</strong> ' + data.diemdi + '</p>';
-                    veHTML += '<p><strong>Điểm đến:</strong> ' + data.diemden + '</p>';
-                    veHTML += '<p><strong>Ngày đi:</strong> ' + data.ngaydi + '</p>';
-                    if (data.chieu === "1") {
-                        veHTML += '<p><strong>Ngày về:</strong> ' + data.ngayve + '</p>';
-                    }
-                    var hinhanh = data.hinhanh;
-                    $('#ticketInfo').append(veHTML);
-                    $('#ticketInfo').data('hinhanh', hinhanh); 
-                } else {
-                    $('#ticketInfo').append('<p>Không tìm thấy thông tin vé.</p>');
-                }
-            }).fail(function() {
-                $('#ticketInfo').append('<p>Đã xảy ra lỗi khi tải thông tin vé.</p>');
-            });
-        } else {
-            $('#ticketInfo').append('<p>ID vé không được cung cấp.</p>');
-        }
+        docJSONtuGitHub();
     });
+
 
     function datcho() {
         var hoten = $('#hoten').val();
