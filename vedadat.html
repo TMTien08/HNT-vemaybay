@@ -8,8 +8,8 @@
     <style>
         #menu {
             background-color: rgb(31, 9, 62);
-             border-radius: 5px;
-             padding: 12px;
+            border-radius: 5px;
+            padding: 12px;
         }
         #menu a {
             color: rgb(7, 36, 255);
@@ -56,8 +56,8 @@
             display: block;
         }
         #de {
-            font-size:15px;
-            font-family:cursive;
+            font-size: 15px;
+            font-family: cursive;
             color: rgb(96, 96, 102);
         }
     </style>
@@ -69,10 +69,10 @@
     <div class="container-fluid">
         <div class="row">
             <div id="menu" class="col-md-9 col-12 d-flex flex-row flex-wrap mx-auto">
-                     <a href="index.html">Trang chủ</a>
-                     <a href="timve.html">Tìm vé</a>
-                     <a id="ql">Quản lý</a>
-                     <a href="vedadat.html">Thông tin vé đã đặt</a>
+                <a href="index.html">Trang chủ</a>
+                <a href="timve.html">Tìm vé</a>
+                <a id="ql">Quản lý</a>
+                <a href="vedadat.html">Thông tin vé đã đặt</a>
             </div>
         </div>
         <div class="row">
@@ -90,77 +90,73 @@
         </div>
     </div>
     <script>
-         function docJSONtuGitHub() {
-        $.ajax({
-        url: 'https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json',
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-            // Xử lý dữ liệu từ JSON tại đây
-        },
-        error: function(error) {
-            console.log(error);
-            alert('Lỗi khi tải tệp JSON từ GitHub');
-        }
-    });
-}
-
-// Gọi hàm docJSONtuGitHub() khi trang được tải
-$(document).ready(function() {
-    docJSONtuGitHub();
-});
-        $(document).ready(function() {
-            function laygiatri2() {
-                $.get("https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json/vemaybay2", function(data, status) {
+        function docJSONtuGitHub() {
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    // Xử lý dữ liệu từ JSON tại đây
                     data.forEach(function(item) {
-                        var veHTML = '<div id="cacve2" style="background-image: url(' + item.hinhanh + ');">';
+                        var veHTML = '<div id="cacve2" style="background-image: url(' + item.hinhanh + ');" data-id="' + item.id + '">';
                         veHTML += '<p><strong>Chuyến bay:</strong> ' + item.tenchuyen + '</p>';
                         veHTML += '<p><strong>Chiều:</strong> ' + (item.chieu === "1" ? 'Khứ hồi' : 'Một chiều') + '</p>';
                         veHTML += '<p><strong>Điểm đi:</strong> ' + item.diemdi + '</p>';
                         veHTML += '<p><strong>Điểm đến:</strong> ' + item.diemden + '</p>';
                         veHTML += '<p><strong>Ngày đi:</strong> ' + item.ngaydi + '</p>';
-                        if (item.chieu == "1") {
+                        if (item.chieu === "1") {
                             veHTML += '<p><strong>Ngày về:</strong> ' + item.ngayve + '</p>';
                         }
                         veHTML += '<p><strong>Loại vé:</strong> ' + item.loaive + '</p>';
-                        veHTML += '<img style="width: 30%;" src="http://api.qrserver.com/v1/create-qr-code/?data= Chuyến bay:'+ item.tenchuyen +'// CCCD khách hàng: '+ item.cccd +'// Mã số chuyến bay: '+ item.id +'"/>';
+                        veHTML += '<img style="width: 30%;" src="http://api.qrserver.com/v1/create-qr-code/?data=Chuyến bay:' + item.tenchuyen + '// CCCD khách hàng: ' + item.cccd + '// Mã số chuyến bay: ' + item.id + '"/>';
                         veHTML += '<a class="ve2 cancel" data-id="' + item.id + '" style="margin-top: ' + (item.chieu === "1" ? '25px' : '53px') + ';" href="#">Hủy chuyến</a>';
                         veHTML += '<a class="ve2" href="#">Thanh Toán</a>';
                         veHTML += '</div>';
                         $('#vedadat').append(veHTML);
                     });
+                },
+                error: function(error) {
+                    console.log(error);
+                    alert('Lỗi khi tải tệp JSON từ GitHub');
+                }
+            });
+        }
 
-                    $('#vedadat').on('click', '.ve2.cancel', function(e) {
-                        e.preventDefault();
-                        var idve = $(this).data('id');
-                        var dieukien = prompt('Nếu muốn hủy chuyến vui lòng nhập đúng mã số định danh chuyến bay của bạn! Hãy quét QR để nhận được mã!');
-                        if (dieukien == idve) {
-                            $.ajax({
-                                url: 'http://localhost:3000/vemaybay2/' + idve,
-                                type: 'DELETE',
-                                success: function(result) {
-                                    alert('Đã xóa thành công');
-                                    $('#cacve2[data-id="' + idve + '"]').remove();
-                                },
-                                error: function(err) {
-                                    alert('Rất tiếc đã xảy ra lỗi');
-                                }
-                            });
-                        } else {
-                            alert('Bạn đã nhập sai yêu cầu đã bị hủy!');
+        // Gọi hàm docJSONtuGitHub() khi trang được tải
+        $(document).ready(function() {
+            docJSONtuGitHub();
+        });
+
+        // Xử lý sự kiện click để hủy chuyến bay
+        $(document).ready(function() {
+            $('#vedadat').on('click', '.ve2.cancel', function(e) {
+                e.preventDefault();
+                var idve = $(this).data('id');
+                var dieukien = prompt('Nếu muốn hủy chuyến vui lòng nhập đúng mã số định danh chuyến bay của bạn! Hãy quét QR để nhận được mã!');
+                if (dieukien == idve) {
+                    $.ajax({
+                        url: 'http://localhost:3000/vemaybay2/' + idve,
+                        type: 'DELETE',
+                        success: function(result) {
+                            alert('Đã xóa thành công');
+                            $('#cacve2[data-id="' + idve + '"]').remove();
+                        },
+                        error: function(err) {
+                            alert('Rất tiếc đã xảy ra lỗi');
                         }
                     });
-                });
-            }
-            laygiatri2();
-            $('#ql').click(function() {
-                var mk = prompt('hay nhap mat khau cho quan tri vien!');
-                if (mk=='namhuytien') {
-                    window.location.href = 'btl3.html';
+                } else {
+                    alert('Bạn đã nhập sai yêu cầu đã bị hủy!');
                 }
-                else {
-                    alert('rat tiec ban truy cap khong thanh cong!')
+            });
+
+            $('#ql').click(function() {
+                var mk = prompt('Hãy nhập mật khẩu cho quản trị viên!');
+                if (mk == 'namhuytien') {
+                    window.location.href = 'btl3.html';
+                } else {
+                    alert('Rất tiếc, bạn truy cập không thành công!');
                 }
             });
         });
