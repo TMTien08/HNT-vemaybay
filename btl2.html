@@ -155,7 +155,7 @@
     
     $(document).ready(function() {
         $.getJSON('https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json')
-                .done(function(data) {
+                .done(function(item) {
         $('#ql').click(function() {
                 var mk = prompt('hay nhap mat khau cho quan tri vien!');
                 if (mk=='namhuytien') {
@@ -169,7 +169,7 @@
         var idVe = urlParams.get('id');
 
         if (idVe) {
-            data.vemaybay.forEach(function(item) { // Lặp qua từng item trong vemaybay
+            item.vemaybay.forEach(function(data) { // Lặp qua từng item trong vemaybay
                 if (status === "success" && data) {
                     var veHTML = '<p><strong>Chuyến bay:</strong> ' + data.tenchuyen + '</p>';
                     veHTML += '<p><strong>Chiều:</strong> ' + (data.chieu === "1" ? 'Khứ hồi' : 'Một chiều') + '</p>';
