@@ -169,7 +169,7 @@
         var idVe = urlParams.get('id');
 
         if (idVe) {
-            $.get("http://localhost:3000/vemaybay/" + idVe, function(data, status) {
+            data.vemaybay.forEach(function(item) { // Lặp qua từng item trong vemaybay
                 if (status === "success" && data) {
                     var veHTML = '<p><strong>Chuyến bay:</strong> ' + data.tenchuyen + '</p>';
                     veHTML += '<p><strong>Chiều:</strong> ' + (data.chieu === "1" ? 'Khứ hồi' : 'Một chiều') + '</p>';
@@ -206,7 +206,7 @@
                     alert("Không thể tải dữ liệu JSON từ GitHub.");
                 });
         });
-
+ 
     function datcho() {
         var hoten = $('#hoten').val();
         var cccd = $('#cccd').val();
