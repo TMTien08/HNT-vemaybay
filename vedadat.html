@@ -112,7 +112,7 @@ $(document).ready(function() {
 });
         $(document).ready(function() {
             function laygiatri2() {
-                $.get("https://tmtien08.github.io/HNT-vemaybay/vemaybay2", function(data, status) {
+                $.get("https://raw.githubusercontent.com/TMTien08/HNT-vemaybay/master/BTL.json/vemaybay2", function(data, status) {
                     data.forEach(function(item) {
                         var veHTML = '<div id="cacve2" style="background-image: url(' + item.hinhanh + ');">';
                         veHTML += '<p><strong>Chuyến bay:</strong> ' + item.tenchuyen + '</p>';
